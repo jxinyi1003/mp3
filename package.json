@@ -14,7 +14,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "submit": "node submit.js"
+    "submit": "node submit.js",
+    "test": "node --test test/unit.test.js",
+    "test:integration": "node --test test/api.integration.test.js"
   },
   "repository": {
     "type": "git",
