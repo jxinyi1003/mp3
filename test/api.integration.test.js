@@ -15,12 +15,17 @@ let server;
 let base;
 let connected = false;
 
-async function request(method, path, body, expected = 200) {
+async function request(method, path, body, expected = method === 'DELETE' ? 204 : 200) {
     const response = await fetch(`${base}${path}`, {
         method,
         headers: { 'Content-Type': 'application/json' },
         ...(body === undefined ? {} : { body: JSON.stringify(body) })
     });
+    if (expected === 204) {
+        assert.equal(response.status, 204, `${method} ${path} must return 204.`);
+        assert.equal(await response.text(), '', `${method} ${path} must have an empty response body.`);
+        return null;
+    }
     const result = await response.json();
     assert.equal(response.status, expected, `${method} ${path}: ${JSON.stringify(result)}`);
     assert.equal(typeof result.message, 'string');

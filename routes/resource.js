@@ -35,8 +35,8 @@ module.exports = function resourceRouter(Model, save, remove, defaultLimit = 0) 
     });
 
     router.delete('/:id', async (req, res) => {
-        const data = await remove(req.params.id);
-        res.status(200).json({ message: `${Model.modelName} deleted.`, data });
+        await remove(req.params.id);
+        res.status(204).end();
     });
 
     return router;
